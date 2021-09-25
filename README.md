@@ -1,6 +1,5 @@
-# bitbots_meta
-This git contains all RoboCup code from the Hamburg Bit-Bots as submodules as well as documentation.
-All code is written as ROS packages and tested for ROS-Melodic.
+#bitbots_thmos_meta
+This repository is forked from Robocup team Bitbots and modified for THMOS. We integrate all submodules into one repository.
 
 
 Structure
