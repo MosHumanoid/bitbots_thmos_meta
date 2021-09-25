@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="udp_bridge" type="sender.py" name="udp_bridge" output="screen">
+        <rosparam command="load" file="$(find udp_bridge)/config/udp_bridge.yaml"/>
+    </node>
+</launch>

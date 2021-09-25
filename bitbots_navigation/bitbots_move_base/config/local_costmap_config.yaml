@@ -1,0 +1,17 @@
+local_costmap:
+  plugins:
+    - {name: obstacle_layer, type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+  # Set map origin to have the origin in the map center
+  origin_x: 0
+  origin_y: 0
+  robot_base_frame: base_footprint
+  global_frame: odom
+
+  update_frequency: 5.0
+  publish_frequency: 1.0
+  transform_tolerance: 1.0
+  rolling_window: true
+  width: 1.5
+  height: 1.5
+  robot_radius: 0.2

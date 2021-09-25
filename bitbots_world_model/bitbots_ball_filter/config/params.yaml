@@ -1,0 +1,23 @@
+# Topics
+ball_subscribe_topic: 'balls_relative'
+ball_position_publish_topic: 'ball_position_relative_filtered'
+ball_movement_publish_topic: 'ball_relative_movement'
+ball_publish_topic: 'ball_relative_filtered'
+
+filter_frame: 'odom'
+# filter_frame: 'map'
+
+# Filtering rate in Hz
+filter_rate: 10
+
+# Velocity reduction (per axis) factor of the ball per second
+velocity_reduction: 0.4
+
+# Noise which is added to the estimated position without new measurements
+process_noise_variance: 0.005
+
+# Ball measurement certainty in filter
+measurement_certainty: 0.1
+
+# Max ball not seen time in Seconds
+filter_reset_time: 20

@@ -1,0 +1,9 @@
+Subscribes to relative object position messages from humanoid_league_msgs and publishes coresponding marker messages.
+These can be displayed in RViz using Add->Marker and then choosing the topic.
+
+Currently generated markers:
+ball
+goal posts
+obstacles
+
+The confidence value is represented in the alpha channel of the object. A more solid object was detected with a higher confidence.

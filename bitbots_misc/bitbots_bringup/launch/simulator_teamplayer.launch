@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- set parameters -->
+    <arg name="use_game_settings" default="false"/>
+    <arg name="behavior" doc="start the behavior" default="true"/>
+    <arg name="ball_filter" doc="start the ball filter" default="true"/>
+    <arg name="fake_walk" doc="fake the walking by using simplified physics and move the robot around on the plain field" default="false"/>
+    <arg name="localization" doc="start the localization, if false publish ground truth" default="true" />
+    <arg name="game_controller" doc="start the game controller" default="true"/>
+    <arg name="vision_debug" default="false" doc="activates the debug output of the vision pipeline"/>
+
+    <!-- load the general simulator and motion -->
+    <include file="$(find bitbots_bringup)/launch/simulator.launch">
+        <arg name="fake_walk" default="$(arg fake_walk)"/>
+    </include>
+
+    <!-- load highlevel stuff -->
+    <include file="$(find bitbots_bringup)/launch/highlevel.launch">
+        <arg name="behavior" default="$(arg behavior)" />
+        <arg name="game_controller" default="$(arg game_controller)"/>
+        <arg name="localization" default="$(arg localization)" />
+        <arg name="sim" default="true" />
+        <arg name="vision_debug" default="$(arg vision_debug)"/>
+        <arg name="ball_filter" default="$(arg ball_filter)"/>
+    </include>
+</launch>

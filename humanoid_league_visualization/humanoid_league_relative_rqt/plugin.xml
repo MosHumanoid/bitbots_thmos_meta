@@ -1,0 +1,17 @@
+<library path="src">
+  <class name="relative" type="humanoid_league_relative_rqt.humanoid_league_relative_rqt.HumanoidLeagueRelativeRqt" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      A Python GUI plugin to visualize relative positions of objects in a radar like interface. Made for usage of humanoid_league_msgs. See README for more information.
+    </description>
+    <qtgui>
+      <group>
+        <label>RoboCup</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to RoboCup.</statustip>
+      </group>
+      <label>Relative Visualization</label>
+      <icon type="theme">applications-science</icon>
+      <statustip> Python GUI plugin to visualize relative positions of objects in a radar like interface.</statustip>
+    </qtgui>
+  </class>
+</library>

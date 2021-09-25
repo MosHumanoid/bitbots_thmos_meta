@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>bitbots_bringup</name>
+  <version>2.3.1</version>
+  <description>The bitbots_bringup package is a collection of util classes used in many ROS packages from
+  the Hamburg Bit-Bots.</description>
+
+  <maintainer email="7sell@informatik.uni-hamburg.de">Finn-Thorben Sell</maintainer>
+  <maintainer email="info@bit-bots.de">Hamburg Bit-Bots</maintainer>
+  <author email="info@bit-bots.de">Hamburg Bit-Bots</author>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>bitbots_docs</depend>
+
+  <export>
+     <bitbots_documentation>
+      <status>unknown</status>
+    </bitbots_documentation>
+  </export>
+</package>

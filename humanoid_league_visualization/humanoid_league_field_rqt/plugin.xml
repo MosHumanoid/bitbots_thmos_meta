@@ -1,0 +1,17 @@
+<library path="src">
+  <class name="2dField" type="humanoid_league_field_rqt.humanoid_league_field_rqt.HumanoidLeagueFieldRqt" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      A Python GUI plugin to visualize data on a 2d view of a RoboCup field.
+    </description>
+    <qtgui>
+      <group>
+        <label>RoboCup</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to RoboCup.</statustip>
+      </group>
+      <label>2D Field</label>
+      <icon type="theme">applications-science</icon>
+      <statustip>A Python GUI plugin to visualize data on a 2d view of a RoboCup field.</statustip>
+    </qtgui>
+  </class>
+</library>

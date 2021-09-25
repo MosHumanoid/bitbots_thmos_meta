@@ -1,0 +1,14 @@
+---
+# See http://doku.bit-bots.de/meta/manual/software/ci.html#make-package-resolvable-in-ci
+check-presence-script: '#!/bin/bash
+
+  test -d $BITBOTS_CATKIN_WORKSPACE/src/center_of_mass'
+depends:
+- urdfdom_py
+- rospy
+- bitbots_docs
+exec-path: center_of_mass-master
+install-script: '#!/bin/bash
+
+  cp -r . $BITBOTS_CATKIN_WORKSPACE/src/center_of_mass'
+uri: https://github.com/bit-bots/center_of_mass/archive/refs/heads/master.tar.gz

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>udp_bridge</name>
+  <version>0.0.0</version>
+  <description>Bridge arbitrary ROS messages to a defined external IP-Address while only using UDP.</description>
+
+  <maintainer email="7sell@informatik.uni-hamburg.de">Finn-Thorben Sell</maintainer>
+  <maintainer email="info@bit-bots.de">Hamburg Bit-Bots</maintainer>
+  <author email="7sell@informatik.uni-hamburg.de">Finn-Thorben Sell</author>
+
+  <license>MIT</license>
+
+  <!-- <url type="website">http://wiki.ros.org/udp_bridge</url> -->
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>roslib</exec_depend>
+
+  <depend>bitbots_docs</depend>
+  <depend>python3-cryptography</depend>
+
+  <export></export>
+</package>

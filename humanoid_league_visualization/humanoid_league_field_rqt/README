@@ -1,0 +1,5 @@
+This package provides a rqt plugin which can display positions on a 2D RoboCup soccer field.
+It uses the messages defined in humanoid_league_msgs.
+For the moment only the position of the robot is implemented, but it is easy to add other objects to it.
+
+For using it, compile and source the plugin. Afterwards it should be accesible in rqt.

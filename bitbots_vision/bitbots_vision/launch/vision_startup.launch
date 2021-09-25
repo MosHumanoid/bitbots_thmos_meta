@@ -1,0 +1,55 @@
+<launch>
+    <!-- Get launch params-->
+    <arg name="sim" default="false" doc="true: activates simulation time, switches to simulation color settings and deactivates launching of an image provider" />
+    <arg name="camera" default="true" doc="true: launches an image provider to get images from a camera (unless sim:=true)" />
+    <arg name="basler" default="true" doc="true: launches the basler camera driver instead of the wolves image provider" />
+    <arg name="dummyball" default="false" doc="true: does not start the ball detection to save resources" />
+    <arg name="debug" default="false" doc="true: activates publishing of several debug images" />
+    <arg name="use_game_settings" default="false" doc="true: loads additional game settings" />
+
+    <arg if="$(optenv IS_ROBOT false)" name="taskset" default="taskset -c 6,7"/>
+    <arg unless="$(optenv IS_ROBOT false)" name="taskset" default=""/>
+
+    <!-- Start the vision-->
+    <node pkg="bitbots_vision" type="vision.py" name="bitbots_vision" output="screen" launch-prefix="$(arg taskset)">
+        <!-- Set vision config-->
+        <rosparam command="load" file="$(find bitbots_vision)/config/visionparams.yaml" />
+
+        <!-- Set debug params-->
+        <param name="vision_publish_debug_image" value="$(arg debug)" />
+        <param name="vision_publish_HSV_mask_image" value="$(arg debug)" />
+        <param name="vision_publish_field_mask_image" value="$(arg debug)" />
+        <param name="ball_fcnn_publish_debug_img" value="$(arg debug)" />
+
+        <!-- Start vision without ball detection-->
+        <param name="neural_network_type" value="dummy" if="$(arg dummyball)"/>
+
+        <!-- load special sim parameters-->
+        <rosparam command="load" file="$(find bitbots_vision)/config/simparams.yaml" if="$(arg sim)"/>
+
+    </node>
+
+    <!-- Load game settings -->
+    <group if="$(arg use_game_settings)">
+        <rosparam command="load" file="$(find bitbots_bringup)/config/game_settings.yaml" />
+    </group>
+
+    <!-- Start dynamic-color-lookup-table node -->
+    <node pkg="bitbots_vision" type="dynamic_color_lookup_table.py" name="bitbots_dynamic_color_lookup_table" output="screen"  launch-prefix="$(arg taskset)">
+    </node>
+
+    <!-- Start the camera only when necessary -->
+    <group if="$(arg camera)">
+        <group unless="$(arg sim)">
+            <include unless="$(arg basler)" file="$(find usb_cam)/launch/usb_cam-test.launch" />
+            <include if="$(arg basler)" file="$(find usb_cam)/launch/usb_cam-test.launch" />
+        </group>
+    </group>
+    <include file="$(find white_balancer)/launch/white_balance.launch" />
+    
+    <!-- Set use simulation time    default is true, changed on 2021.9.7-->
+    <group if="$(arg sim)">
+        <param name="use_sim_time" value="true" />
+    </group>
+
+</launch>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Robocup2dFieldWidget</class>
+ <widget class="QWidget" name="2dFieldWidget">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Robocup 2D Field</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
+   <item>
+      <widget class="QPushButton" name="resize_push_button">
+       <property name="toolTip">
+        <string>Resize field. </string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+   <item>
+   <widget class="QGraphicsView" name="graphics_view">
+     <property name="renderHints">
+       <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+     </property>
+     <property name="resizeAnchor">
+       <enum>QGraphicsView::AnchorViewCenter</enum>
+     </property>
+   </widget>
+   </item>
+ </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

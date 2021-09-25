@@ -1,0 +1,7 @@
+<launch>
+  <arg name="tf_prefix" value="$(eval optenv('ROS_NAMESPACE') + '/' if optenv('ROS_NAMESPACE') !=  '' else '')"/>
+  <node pkg="center_of_mass" type="com.py" name="center_of_mass">
+    <param name="base_link_frame" value="$(arg tf_prefix)base_link"/>
+    <param name="tf_prefix" value="$(arg tf_prefix)"/>
+  </node>
+</launch>

@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: thmos_urdf
+    relative_path: urdf/thmos_urdf.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/thmos_urdf.srdf
+  CONFIG:
+    author_name: Ma Liqian
+    author_email: mlq19@mails.tsinghua.edu.cn
+    generated_timestamp: 1628047375

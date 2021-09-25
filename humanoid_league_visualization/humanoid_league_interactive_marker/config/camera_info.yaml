@@ -1,0 +1,5 @@
+camera_info:
+  frame_id: "camera_optical_frame"
+  height: 480
+  width: 620
+  K: [1058.1085827646846, 0.0, 310.5, 0.0, 1058.1085827646846, 240.5, 0.0, 0.0, 1.0]

@@ -1,0 +1,55 @@
+#VRML_SIM R2021b utf8
+DEF world_info WorldInfo {
+  basicTimeStep 8
+  physicsDisableTime 0.1
+  physicsDisableLinearThreshold 0.1
+  physicsDisableAngularThreshold 0.1
+  contactProperties [
+    ContactProperties {
+      material1 "grass"
+      coulombFriction [
+        0.5
+      ]
+      softCFM 0.03
+    }
+    ContactProperties {
+      material1 "grass"
+      material2 "robocup soccer ball"
+      coulombFriction [
+        0.5
+      ]
+      bounce 0.76
+      softCFM 0.05
+    }
+    ContactProperties {
+      material2 "robocup soccer ball"
+      bounce 0.76
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.19077942442032872 -0.5995108172167886 -0.7772965915645754 2.6551905951925847
+  position -3.103412866215793 5.021722169544413 1.294637264091564
+}
+TexturedBackground {
+  texture "stadium_dry"
+}
+TexturedBackgroundLight {
+  texture "stadium_dry"
+}
+DEF RED_PLAYER_1 THMOS {
+  translation -1.067 3.17176 0.43521
+  rotation 0.0075727723365717 0.0001876580579017152 0.9999713085401959 -1.569975307179586
+  name "thmos"
+  controller "<extern>"
+}
+DEF ball RobocupSoccerBall {
+  translation 0 0 0.08
+}
+RobocupSoccerField {
+  size "kid"
+}
+DEF supervisor_robot hl_supervisor {
+  name "supervisor_robot"
+  controller "<extern>"
+}

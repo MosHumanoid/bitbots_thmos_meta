@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="behavior" default="true"/>
+    <arg name="game_controller" default="false" doc="Sets whether the Gamecontroller should be started"/>
+    <arg name="localization" default="true"/>
+    <arg name="sim" default="true"/>
+    <arg name="simple" default="false" doc="Whether to use the simple behavior" />
+    <arg name="transformer" default="true"/>
+    <arg name="use_game_settings" default="true"/>
+    <arg name="vision" default="true"/>
+    <arg name="ball_filter" default="true"/>
+    <arg name="vision_debug" default="false" doc="activates the debug output of the vision pipeline"/>
+    <arg name="rviz" default="true" />
+
+    <!-- launch game controller -->
+    <!-- <group if="$(arg game_controller)">
+        <include file="$(find humanoid_league_game_controller)/launch/game_controller.launch">
+            <arg name="use_game_settings" value="$(arg use_game_settings)"/>
+        </include>
+    </group> -->
+
+
+    <!--motion -->
+    <include file="$(find bitbots_quintic_walk)/launch/quintic_walk_standalone_thmos.launch">
+        <arg name="sim" value="$(arg sim)"/>
+    </include>
+
+    <!-- launch imu_filter -->
+    <include file="$(find wolfgang_webots_sim)/launch/imu_filter_sim.launch" />
+
+
+    <!-- launch the kick -->
+    <include file="$(find bitbots_dynamic_kick)/launch/dynamic_kick.launch" />
+
+    <!-- launch vision -->
+    <group if="$(arg vision)">
+        <include file="$(find bitbots_vision)/launch/vision_startup.launch">
+            <arg name="sim" value="$(arg sim)" />
+            <arg name="use_game_settings" value="$(arg use_game_settings)"/>
+            <arg name="debug" value="$(arg vision_debug)" />
+        </include>
+    </group>
+
+    <!-- launch transformer -->
+    <group if="$(arg transformer)">
+        <include file="$(find humanoid_league_transform)/launch/transformer.launch">
+            <arg name="use_game_settings" value="$(arg use_game_settings)"/>
+        </include>
+    </group>
+
+    <!-- launch ball_filter -->
+    <group if="$(arg ball_filter)">
+        <include file="$(find bitbots_ball_filter)/launch/ball_filter.launch"/>
+    </group>
+
+    <!-- launch localization or fake localization -->
+    <group if="$(arg localization)">
+        <include file="$(find bitbots_localization)/launch/localization.launch">
+            <arg name="sim" value="$(arg sim)"/>
+        </include>
+    </group>
+    <group unless="$(arg localization)">
+        <node name="map_odom" pkg="bitbots_move_base" type="tf_map_odom.py" output="screen" />
+        <node name="localization_covariance" pkg="bitbots_localization" type="rviz_localization_sim.py" output="screen" />
+    </group>
+
+    <!-- launch pathplanning -->
+    <include file="$(find bitbots_move_base)/launch/pathfinding_move_base.launch" />
+
+    <!-- launch behavior -->
+    <group if="$(arg behavior)">
+        <include file="$(find bitbots_body_behavior)/launch/behavior.launch">
+            <arg name="use_game_settings" value="$(arg use_game_settings)"/>
+            <arg name="simple" value="$(arg simple)"/>
+        </include>
+    </group>
+
+    <group if="$(arg rviz)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bitbots_localization)/config/localization.rviz" />
+    </group>
+
+</launch>
