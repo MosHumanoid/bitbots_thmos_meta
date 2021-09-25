@@ -1,22 +1,8 @@
 # bitbots_thmos_meta
 This repository is forked from Robocup team Bitbots and modified for THMOS. We integrate all submodules into one repository.
 
-
-Structure
----------
-
-The actual code is in submodule gits to make it easier for others to use only parts of our code.
-If you want to pull all submodule run
-
-``` bash
-make pull-all
-```
-The naming prefix indicates the scope of the packages.
-
- * bitbots_ : specific RoboCup code of our team which follows interface specification of humanoid_league_msgs
- * humanoid_league_ : packages which are useful for all teams in the RoboCup Humanoid League, e.g. visualization tools and gamecontroller
- * no prefix : packages which are useful in general and usable outside of RoboCup
-
+# Installation
+cloud.tsinghua.edu.cn
 
 Documentation
 -------------
