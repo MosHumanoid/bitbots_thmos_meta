@@ -8,6 +8,21 @@ default_acceleration_scaling_factor: 0.1
 # Specific joint properties can be changed with the keys [max_position, min_position, max_velocity, max_acceleration]
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 joint_limits:
+  L_arm_1:
+    has_velocity_limits: true
+    max_velocity: 6
+    has_acceleration_limits: false
+    max_acceleration: 0
+  L_arm_2:
+    has_velocity_limits: true
+    max_velocity: 6
+    has_acceleration_limits: false
+    max_acceleration: 0
+  L_arm_3:
+    has_velocity_limits: true
+    max_velocity: 6
+    has_acceleration_limits: false
+    max_acceleration: 0
   L_leg_1:
     has_velocity_limits: true
     max_velocity: 8
@@ -38,6 +53,21 @@ joint_limits:
     max_velocity: 8
     has_acceleration_limits: false
     max_acceleration: 0
+  R_arm_1:
+    has_velocity_limits: true
+    max_velocity: 6
+    has_acceleration_limits: false
+    max_acceleration: 0
+  R_arm_2:
+    has_velocity_limits: true
+    max_velocity: 6
+    has_acceleration_limits: false
+    max_acceleration: 0
+  R_arm_3:
+    has_velocity_limits: true
+    max_velocity: 6
+    has_acceleration_limits: false
+    max_acceleration: 0
   R_leg_1:
     has_velocity_limits: true
     max_velocity: 8
@@ -66,5 +96,15 @@ joint_limits:
   R_leg_6:
     has_velocity_limits: true
     max_velocity: 8
+    has_acceleration_limits: false
+    max_acceleration: 0
+  head:
+    has_velocity_limits: true
+    max_velocity: 6
+    has_acceleration_limits: false
+    max_acceleration: 0
+  neck:
+    has_velocity_limits: true
+    max_velocity: 6
     has_acceleration_limits: false
     max_acceleration: 0

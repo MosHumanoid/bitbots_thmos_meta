@@ -50,7 +50,7 @@ behavior:
 
     # When the ball is closer than `ball_close_distance` meters
     # it is in a reachable area of the robot
-    ball_close_distance: 1.5
+    ball_close_distance: 0.1
 
     # the maximal allowed standard deviation of the ball twist.
     ball_twist_precision_threshold:
