@@ -77,9 +77,9 @@ WalkNode::WalkNode(const std::string ns) :
   dynamic_reconfigure::Server<bitbots_quintic_walk::bitbots_quintic_walk_paramsConfig>::CallbackType f;
   f = boost::bind(&bitbots_quintic_walk::WalkNode::reconfCallback, this, _1, _2);
   dyn_reconf_server_->setCallback(f);
-
+  
   // this has to be done to prevent strange initilization bugs
-  walk_engine_ = WalkEngine(ns);
+  // walk_engine_ = WalkEngine(ns);
 }
 
 void WalkNode::run() {
@@ -511,7 +511,6 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "walking");
   // init node
   bitbots_quintic_walk::WalkNode node("");
-
   // run the node
   node.initializeEngine();
   node.run();

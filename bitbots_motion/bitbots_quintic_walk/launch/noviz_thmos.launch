@@ -1,0 +1,8 @@
+<launch>
+    <include file="$(find bitbots_bringup)/launch/load_robot_description_thmos.launch"/>
+
+    <rosparam file="$(find bitbots_quintic_walk)/config/walking_wolfgang_viz.yaml" command="load"/>
+
+    <node name="walking" pkg="bitbots_quintic_walk" type="WalkNode" output="screen"/>
+
+</launch>
