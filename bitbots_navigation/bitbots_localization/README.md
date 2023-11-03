@@ -1,2 +1,0 @@
-# bitbots_localization
-

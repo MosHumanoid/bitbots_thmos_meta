@@ -1,9 +1,0 @@
-<launch>
-    <rosparam file="$(find humanoid_league_interactive_marker)/config/camera_info.yaml" command="load"/>
-
-    <node name="rviz" pkg="rviz" type="rviz" output="screen" 
-          args="-d $(find humanoid_league_interactive_marker)/config/interactive_marker.rviz">
-    </node>
-    <node name="interactive_marker" pkg="humanoid_league_interactive_marker" type="interactive_marker.py" output="screen"/>
-
-</launch>
