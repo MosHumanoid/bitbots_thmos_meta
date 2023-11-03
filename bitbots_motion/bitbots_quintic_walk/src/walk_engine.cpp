@@ -27,6 +27,14 @@ WalkEngine::WalkEngine(const std::string ns) :
   right_in_world_.setIdentity();
   reset();
 
+  // init dynamic reconfigure
+  dyn_reconf_server_ =
+      new dynamic_reconfigure::Server<bitbots_quintic_walk::bitbots_quintic_walk_engine_paramsConfig>(ros::NodeHandle(
+          ns + "walking/engine"));
+  dynamic_reconfigure::Server<bitbots_quintic_walk::bitbots_quintic_walk_engine_paramsConfig>::CallbackType f;
+  f = boost::bind(&bitbots_quintic_walk::WalkEngine::reconfCallback, this, _1, _2);
+  dyn_reconf_server_->setCallback(f);
+
   // move left and right in world by foot distance for correct initialization
   left_in_world_.setOrigin(tf2::Vector3{0, params_.foot_distance / 2, 0});
   right_in_world_.setOrigin(tf2::Vector3{0, -1 * params_.foot_distance / 2, 0});

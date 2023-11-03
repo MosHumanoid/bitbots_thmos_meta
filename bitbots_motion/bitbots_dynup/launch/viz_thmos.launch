@@ -1,0 +1,9 @@
+<launch>
+  <include file="$(find bitbots_bringup)/launch/load_robot_description_thmos.launch" />
+  <node name="rviz" pkg="rviz" type="rviz" output="screen" required="true"
+    args="-d $(find wolfgang_description)/config/wolfgang.rviz" />
+  <node name="motor_goals_viz_helper" pkg="bitbots_bringup" type="motor_goals_viz_helper_thmos.py"  args="--all" />
+
+  <rosparam file="$(find bitbots_dynup)/config/dynup_robot.yaml" command="load"/>
+  <node name="dynup" pkg="bitbots_dynup" type="DynupNode" output="screen" />
+</launch>
