@@ -7,12 +7,9 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   urdf
   xacro
-  bitbots_docs
 )
 
 catkin_package()
-
-enable_bitbots_docs()
 
 include_directories(
   ${catkin_INCLUDE_DIRS}

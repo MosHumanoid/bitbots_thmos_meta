@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
         std_msgs
         eigen_conversions
         bio_ik
-        bitbots_docs
         )
 find_package(Eigen3 REQUIRED)
 find_package(PkgConfig REQUIRED)
@@ -23,8 +22,6 @@ catkin_package(
         roscpp
         DEPENDS EIGEN3
 )
-
-enable_bitbots_docs()
 
 include_directories(
         include

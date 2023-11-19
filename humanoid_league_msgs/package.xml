@@ -20,8 +20,6 @@
   <depend>message_runtime</depend>
   <depend>sensor_msgs</depend>
   <depend>trajectory_msgs</depend>
-  <depend>bitbots_docs</depend>
-
   <export>
      <bitbots_documentation>
       <status>tested_robot</status>

@@ -3,7 +3,6 @@ project(bitbots_msgs)
 
 find_package(catkin REQUIRED COMPONENTS
   actionlib_msgs
-  bitbots_docs
   roscpp
   rospy
   message_generation
@@ -53,4 +52,3 @@ catkin_package(
   CATKIN_DEPENDS roscpp std_msgs sensor_msgs actionlib_msgs
 )
 
-enable_bitbots_docs()
