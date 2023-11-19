@@ -4,6 +4,8 @@
 
 2.depends:
 
+* ros with python3
+
 **noetic**
 ```shell
 sudo apt install python3-catkin-tools python3-pip ros-noetic-amcl ros-noetic-controller-interface ros-noetic-controller-manager ros-noetic-controller-manager-msgs ros-noetic-gazebo-ros-control ros-noetic-hector-gazebo ros-noetic-hector-gazebo-plugins ros-noetic-imu-sensor-controller ros-noetic-joint-state-controller ros-noetic-joint-trajectory-controller ros-noetic-map-server ros-noetic-move-base ros-noetic-moveit ros-noetic-moveit-core ros-noetic-moveit-resources ros-noetic-moveit-ros-planning ros-noetic-moveit-ros-planning-interface ros-noetic-plotjuggler ros-noetic-pointcloud-to-laserscan ros-noetic-robot-controllers ros-noetic-robot-controllers-interface ros-noetic-robot-controllers-msgs ros-noetic-robot-localization ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-rqt-controller-manager ros-noetic-rqt-joint-trajectory-controller ros-noetic-spatio-temporal-voxel-layer ros-noetic-rviz-imu-plugin ros-noetic-imu-complementary-filter ros-noetic-joy ros-noetic-ros-numpy
@@ -18,10 +20,10 @@ sudo apt install python3-catkin-tools python3-pip ros-melodic-amcl ros-melodic-c
 sudo pip3 install rospkg
 ```
 
-3.change mode
+3.change mode 
 
 ```shell
-chmod 777 (packet path)/bitbots_thmos_meta -R
-find (packet path)/bitbots_thmos_meta -name "*.py" | xargs dos2unix
+chmod 777 bitbots_thmos_meta -R
+find bitbots_thmos_meta -name "*.py" | xargs dos2unix
 ```
 
