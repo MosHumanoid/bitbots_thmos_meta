@@ -316,8 +316,6 @@ if __name__ == "__main__":
             sys.stdout.write("\x1b[A")
             sys.stdout.write("\x1b[A")
             sys.stdout.write("\x1b[A")
-            print(
-                f"x:    {x}          \ny:    {y}          \nturn: {th}          \n\nhead pan: {head_pan_pos:.2f}          \nhead tilt: {head_tilt_pos:.2f}          ")
 
     except Exception as e:
         print(e)
