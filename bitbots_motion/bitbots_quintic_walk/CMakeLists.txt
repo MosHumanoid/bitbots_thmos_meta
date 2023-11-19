@@ -30,7 +30,6 @@ find_package(catkin REQUIRED COMPONENTS
         roscpp
         rosconsole
         std_msgs
-        humanoid_league_msgs
         dynamic_reconfigure
         tf2
         tf2_eigen
@@ -82,7 +81,7 @@ include_directories(
 catkin_package(
         INCLUDE_DIRS include
         LIBRARIES ${PROJECT_NAME}
-        CATKIN_DEPENDS humanoid_league_msgs std_msgs geometry_msgs bitbots_splines message_runtime bitbots_msgs tf2 tf2_eigen tf2_geometry_msgs rotconv
+        CATKIN_DEPENDS std_msgs geometry_msgs bitbots_splines message_runtime bitbots_msgs tf2 tf2_eigen tf2_geometry_msgs rotconv
         DEPENDS EIGEN3
 )
 

@@ -6,7 +6,6 @@ import rospy
 from std_msgs.msg import Float64MultiArray
 from sensor_msgs.msg import JointState
 from bitbots_msgs.msg import JointCommand
-from humanoid_league_msgs.msg import Animation
 
 # List of all joint names. Do not change the order as it is important for Gazebo
 JOINT_NAMES = ['neck', 'head', 'L_arm_1', 'L_arm_2', 'L_arm_3', 'R_arm_1',
@@ -22,7 +21,6 @@ class MotorVizHelper:
 
         parser = argparse.ArgumentParser()
         parser.add_argument("--walking", "-w", help="Directly get walking motor goals", action="store_true")
-        parser.add_argument("--animation", "-a", help="Directly get animation motor goals", action="store_true")
         parser.add_argument("--head", help="Directly get head motor goals", action="store_true")
         parser.add_argument("--kick", help="Directly get kick motor goals", action="store_true")
         parser.add_argument("--dynup", help="Directly get Dynup motor goals", action="store_true")
@@ -38,8 +36,6 @@ class MotorVizHelper:
 
         if args.walking or args.all:
             rospy.Subscriber("walking_motor_goals", JointCommand, self.joint_command_cb, queue_size=10, tcp_nodelay=True)
-        if args.animation or args.all:
-            rospy.Subscriber("animation", Animation, self.animation_cb, queue_size=10, tcp_nodelay=True)
         if args.head or args.all:
             rospy.Subscriber("head_motor_goals", JointCommand, self.joint_command_cb, queue_size=10, tcp_nodelay=True)
         if args.kick or args.all:
@@ -85,13 +81,6 @@ class MotorVizHelper:
             name = msg.joint_names[i]
             self.joint_command_msg.positions[JOINT_NAMES.index(name)] = msg.positions[i]
             self.joint_command_msg.velocities[JOINT_NAMES.index(name)] = msg.velocities[i]
-
-    def animation_cb(self, msg: Animation):
-        self.joint_command_msg.header.stamp = rospy.Time.now()
-        for i in range(len(msg.position.joint_names)):
-            name = msg.position.joint_names[i]
-            self.joint_command_msg.positions[JOINT_NAMES.index(name)] = msg.position.points[0].positions[i]
-            self.joint_command_msg.velocities[JOINT_NAMES.index(name)] = -1
 
     def update_joint_states(self, msg):
         for i in range(len(msg.joint_names)):

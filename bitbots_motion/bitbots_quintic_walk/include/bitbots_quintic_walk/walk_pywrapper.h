@@ -23,7 +23,6 @@ class PyWalkWrapper {
   moveit::py_bindings_tools::ByteString get_odom();
   void reset();
   void special_reset(int state, double phase, const std::string cmd_vel, bool reset_odometry);
-  void set_robot_state(int state);
   void set_engine_dyn_reconf(const boost::python::object params);
   void set_node_dyn_reconf(const boost::python::object params);
   float get_phase();

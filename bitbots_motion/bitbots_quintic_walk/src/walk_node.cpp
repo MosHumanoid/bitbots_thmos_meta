@@ -21,7 +21,6 @@ WalkNode::WalkNode(const std::string ns) :
   pnh_.param<std::string>("odom_frame", odom_frame_, "odom");
 
   // init variables
-  robot_state_ = humanoid_league_msgs::RobotControlState::CONTROLLABLE;
   current_request_.linear_orders = {0, 0, 0};
   current_request_.angular_z = 0;
   current_trunk_fused_pitch_ = 0;
@@ -43,8 +42,7 @@ WalkNode::WalkNode(const std::string ns) :
   pub_support_ = nh_.advertise<bitbots_msgs::SupportState>("walk_support_state", 1, true);
   cmd_vel_sub_ = nh_.subscribe("cmd_vel", 1, &WalkNode::cmdVelCb, this,
                                ros::TransportHints().tcpNoDelay());
-  robot_state_sub_ = nh_.subscribe("robot_state", 1, &WalkNode::robotStateCb, this,
-                                   ros::TransportHints().tcpNoDelay());
+                               
   joint_state_sub_ =
       nh_.subscribe("joint_states", 1, &WalkNode::jointStateCb, this, ros::TransportHints().tcpNoDelay());
   kick_sub_ = nh_.subscribe("kick", 1, &WalkNode::kickCb, this, ros::TransportHints().tcpNoDelay());
@@ -95,20 +93,8 @@ void WalkNode::run() {
   double dt;
   while (ros::ok()) {
     dt = getTimeDelta();
-
-    if (robot_state_ == humanoid_league_msgs::RobotControlState::FALLING) {
-      // the robot fell, we have to reset everything and do nothing else
-      walk_engine_.reset();
-      stabilizer_.reset();
-    } else {
-      // we don't want to walk, even if we have orders, if we are not in the right state
-      /* Our robots will soon^TM be able to sit down and stand up autonomously, when sitting down the motors are
-       * off but will turn on automatically which is why MOTOR_OFF is a valid walkable state. */
-      // TODO Figure out a better way than having integration knowledge that HCM will play an animation to stand up
-      current_request_.walkable_state = robot_state_ == humanoid_league_msgs::RobotControlState::CONTROLLABLE ||
-          robot_state_ == humanoid_league_msgs::RobotControlState::WALKING ||
-          robot_state_ == humanoid_league_msgs::RobotControlState::MOTOR_OFF;
-
+      // without control box
+      current_request_.walkable_state = true;
       // perform all the actual calculations
       bitbots_msgs::JointCommand joint_goals = step(dt);
 
@@ -138,7 +124,7 @@ void WalkNode::run() {
           visualizer_.publishEngineDebug(current_response_);
         }
       }
-    }
+    
     // always publish odometry to not confuse odometry fuser
     odom_counter++;
     if (odom_counter > odom_pub_factor_) {
@@ -385,10 +371,6 @@ void WalkNode::checkPhaseRestAndReset() {
       walk_engine_.endStep();
     }
   }
-}
-
-void WalkNode::robotStateCb(const humanoid_league_msgs::RobotControlState msg) {
-  robot_state_ = msg.state;
 }
 
 void WalkNode::jointStateCb(const sensor_msgs::JointState &msg) {

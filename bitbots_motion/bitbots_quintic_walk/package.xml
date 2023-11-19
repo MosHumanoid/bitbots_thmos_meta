@@ -19,7 +19,6 @@
   <build_depend>message_generation</build_depend>
 
   <depend>roscpp</depend>
-  <depend>humanoid_league_msgs</depend>
   <depend>std_msgs</depend>
   <depend>rosconsole</depend>
   <depend>dynamic_reconfigure</depend>

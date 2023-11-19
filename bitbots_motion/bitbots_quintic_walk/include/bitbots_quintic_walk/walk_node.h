@@ -26,7 +26,6 @@ https://github.com/Rhoban/model/
 #include <sensor_msgs/Imu.h>
 #include <nav_msgs/Odometry.h>
 #include <moveit_msgs/RobotState.h>
-#include <humanoid_league_msgs/RobotControlState.h>
 #include <bitbots_msgs/JointCommand.h>
 #include <bitbots_msgs/FootPressure.h>
 #include <bitbots_msgs/SupportState.h>
@@ -97,12 +96,6 @@ class WalkNode {
    * Initialize internal WalkEngine to correctly zeroed, usable state
    */
   void initializeEngine();
-
-  /**
-   * Sets the current state of the robot
-   * @param msg The current state
-   */
-  void robotStateCb(humanoid_league_msgs::RobotControlState msg);
 
   WalkEngine *getEngine();
 

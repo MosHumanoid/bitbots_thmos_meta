@@ -41,9 +41,6 @@ void spin_once() {
   ros::spinOnce();
 }
 
-PyWalkWrapper::PyWalkWrapper(const std::string ns) : walk_node_(std::make_shared<bitbots_quintic_walk::WalkNode>(ns)) {
-  set_robot_state(0);
-}
 
 moveit::py_bindings_tools::ByteString PyWalkWrapper::step(double dt,
                                                           const std::string &cmdvel_msg,
@@ -107,11 +104,6 @@ float PyWalkWrapper::get_freq() {
   return walk_node_->getEngine()->getFreq();
 }
 
-void PyWalkWrapper::set_robot_state(int state) {
-  humanoid_league_msgs::RobotControlState state_msg;
-  state_msg.state = state;
-  walk_node_->robotStateCb(state_msg);
-}
 
 void PyWalkWrapper::set_engine_dyn_reconf(const boost::python::object params) {
   using namespace boost::python;
@@ -274,7 +266,6 @@ BOOST_PYTHON_MODULE(py_quintic_walk)
         class_<PyWalkWrapper>("PyWalkWrapper", init<std::string>())
         .def("step", &PyWalkWrapper::step)
         .def("get_left_foot_pose", &PyWalkWrapper::get_left_foot_pose)
-        .def("set_robot_state", &PyWalkWrapper::set_robot_state)
         .def("reset", &PyWalkWrapper::reset)
         .def("special_reset", &PyWalkWrapper::special_reset)
         .def("set_engine_dyn_reconf",
