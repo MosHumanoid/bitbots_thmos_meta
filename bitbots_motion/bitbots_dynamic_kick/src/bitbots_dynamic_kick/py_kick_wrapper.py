@@ -93,7 +93,7 @@ class PyKick:
         """
         self.py_kick_wrapper.set_params(params_dict)
 
-    def get_trunk_pose(self)
+    def get_trunk_pose(self):
         """Returns the current pose of the trunk relative to the support foot"""
         return from_cpp(self.py_kick_wrapper.get_trunk_pose(), Pose)
 
