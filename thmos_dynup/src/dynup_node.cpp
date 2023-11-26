@@ -1,20 +1,15 @@
 #include "ros/ros.h"
-// #include "bitbots_msgs/JointCommand.h"
-#include "bitbots_msgs/KickResult.h"
-#include "bitbots_msgs/KickAction.h"
-#include "sensor_msgs/JointState.h"
-#include <std_msgs/Bool.h>
+#include "bitbots_msgs/JointCommand.h"
 #include <actionlib/server/simple_action_server.h>
 #include <fstream>
 #include <vector>
 #include <string>
 #include <iostream>
 
-#define KICK_FILE_NAME "/home/nvidia/thmos_ws/src/kick.txt"
-#define DYNUP_FRONT_FILE_NAME "/home/nvidia/thmos_ws/src/dynup_front.txt"
-#define DYNUP_BACK_FILE_NAME "/home/nvidia/thmos_ws/src/dynup_back.txt"
+#define DYNUP_FRONT_FILE_NAME "/home/jinyin/main_workspace/src/bitbots_thmos_meta/thmos_dynup/config/dynup_front.txt"
+#define DYNUP_BACK_FILE_NAME "/home/jinyin/main_workspace/src/bitbots_thmos_meta/thmos_dynup/config/dynup_back.txt"
 
-typedef actionlib::SimpleActionServer<bitbots_msgs::KickAction> ActionServer;
+typedef actionlib::SimpleActionServer<bitbots_msgs::DynUpAction> ActionServer;
 std::string Id2Name (int id) {
     if (id == 1) {
         return "neck";
@@ -85,8 +80,7 @@ std::string Id2Name (int id) {
 typedef enum {
     DEFAULT = 0,
     DYNUP_FRONT = 1,
-    DYNUP_BACK = 2,
-    KICK = 3
+    DYNUP_BACK = 2
 } AnimationState;
 AnimationState mos_state = DEFAULT;
 
@@ -111,12 +105,10 @@ void publishMsg (ros::Publisher* pub, Arguments* args)
     ros::Rate loop_rate (args -> rate);
     int id = 0;
     while (id < args -> motion_num) {
-        // ROS_INFO("%d", id);
-        // bitbots_msgs::JointCommand msg;
-        sensor_msgs::JointState msg;
+        bitbots_msgs::JointCommand msg;
         for (int i=0; i<20; i++) {
-            msg.name.push_back(Id2Name(i+1));
-            msg.position.push_back(args -> args[id][i]);
+            msg.joint_names.push_back(Id2Name(i+1));
+            msg.positions.push_back(args -> args[id][i]);
         }
         pub -> publish(msg);
         id++;
@@ -125,42 +117,24 @@ void publishMsg (ros::Publisher* pub, Arguments* args)
 }
 
 typedef struct {
-    ros::Publisher kick_pub;
     ros::Publisher dynup_pub;
-    ros::Publisher kick_start;
-   
     Arguments* dynup_front_args;
     Arguments* dynup_back_args;
-    Arguments* kick_args;
 } Pubs;
 
-void callback(const bitbots_msgs::KickGoalConstPtr &goal, ActionServer* as,Pubs* p)
+void callback(const bitbots_msgs::DynupGoalConstPtr &goal, ActionServer* as,Pubs* p)
 {
-    if (goal -> kick_speed == 1) {
+    if (goal -> direction == "front") {
         mos_state = DYNUP_FRONT;
         ROS_INFO("-------start dynup front-------");
-        //Arguments* dynup_front_args = readArgs(DYNUP_FRONT_FILE_NAME);
         publishMsg(&(p->dynup_pub), p->dynup_front_args);
         ROS_INFO("-------finished dynup front-------");
     }
-    else if (goal -> kick_speed == 2) {
+    else if (goal -> kick_speed == "back") {
         mos_state = DYNUP_BACK;
         ROS_INFO("-------start dynup back-------");
-        //Arguments* dynup_back_args = readArgs(DYNUP_BACK_FILE_NAME);
         publishMsg(&(p->dynup_pub), p->dynup_back_args);
         ROS_INFO("-------finished dynup back-------");
-    }
-    else if (goal -> kick_speed == 3) {
-        mos_state = KICK;
-        ROS_INFO("-------start kicking-------");
-        //Arguments* kick_args = readArgs(KICK_FILE_NAME);
-        std_msgs::Bool start_msg;
-        start_msg.data = true;
-        p->kick_start.publish(start_msg);
-        publishMsg(&(p->kick_pub), p->kick_args);
-        ROS_INFO ("-----Done kicking ball!-----");
-        start_msg.data = false;
-        p->kick_start.publish(start_msg);
     }
     else {
         mos_state = DEFAULT;
@@ -202,50 +176,19 @@ Arguments* readArgs (std::string filename) {
 int main (int argc, char** argv) {
     Arguments* dynup_front_args = readArgs(DYNUP_FRONT_FILE_NAME);
     Arguments* dynup_back_args = readArgs(DYNUP_BACK_FILE_NAME);
-    Arguments* kick_args = readArgs(KICK_FILE_NAME);
-    if (!dynup_front_args || !dynup_back_args || !kick_args) {
+
+    if (!dynup_front_args || !dynup_back_args) {
         ROS_ERROR("Read args failed!");
         return 0;
     }
 
-    ros::init(argc, argv, "thmos_animation_node");
+    ros::init(argc, argv, "thmos_dynup_node");
     ros::NodeHandle n;
-    ros::Publisher kick_pub = n.advertise<sensor_msgs::JointState>("kick_motor_goals", 1);
-    ros::Publisher dynup_pub = n.advertise<sensor_msgs::JointState>("dynup_motor_goals", 1);
-    ros::Publisher kick_start = n.advertise<std_msgs::Bool>("start_kick", 1);
-    
-    Pubs pubs = { kick_pub ,dynup_pub ,kick_start,dynup_front_args, dynup_back_args ,kick_args };
-    ActionServer server(n, "thmos_animation", boost::bind(&callback, _1,&server,&pubs), false);
+    ros::Publisher dynup_pub = n.advertise<bitbots_msgs::JointCommand>("dynup_motor_goals", 1);
+    Pubs pubs = {dynup_pub , dynup_front_args, dynup_back_args};
+    ActionServer server(n, "thmos_dynup", boost::bind(&callback, _1,&server,&pubs), false);
     server.start();
-    ROS_INFO("-------start animation node-------");
+    ROS_INFO("-------start dynup node-------");
     ros::spin();
-    // while (ros::ok()) {
-    //     bitbots_msgs::KickResult result;
-    //     if (mos_state == DYNUP_FRONT) {
-    //         publishMsg(&dynup_pub, dynup_front_args);
-    //         ROS_INFO ("Done dynup front!");
-    //         result.result = bitbots_msgs::KickResult::SUCCESS;
-    //         server.setSucceeded(result);
-    //     }
-    //     else if (mos_state == DYNUP_BACK) {
-    //         publishMsg(&dynup_pub, dynup_back_args);
-    //         ROS_INFO ("Done dynup back!");
-    //         result.result = bitbots_msgs::KickResult::SUCCESS;
-    //         server.setSucceeded(result);
-    //     }
-    //     else if (mos_state == KICK) {
-    //         std_msgs::Bool start_msg;
-    //         start_msg.data = true;
-    //         kick_start.publish(start_msg);
-    //         publishMsg(&kick_pub, kick_args);
-    //         ROS_INFO ("Done kicking ball!");
-    //         start_msg.data = false;
-    //         kick_start.publish(start_msg);
-    //         result.result = bitbots_msgs::KickResult::SUCCESS;
-    //         server.setSucceeded(result);
-    //     }
-    //     mos_state = DEFAULT;
-    //     ros::spinOnce();
-    // }
     return 0;
 }
