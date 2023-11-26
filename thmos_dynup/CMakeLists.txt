@@ -27,6 +27,9 @@ include_directories(
         ${Boost_INCLUDE_DIRS}
 )
 
-add_executable(dynup  dynup.cpp)
-add_dependencies(dynup ${PROJECT_NAME}_gencfg ${PROJECT_NAME}_generate_messages)
-target_link_libraries(dynup_node ${catkin_LIBRARIES})
+set(SOURCES
+        src/dynup_node.cpp)
+        
+add_executable(DynupNode  ${SOURCES})
+add_dependencies(DynupNode ${PROJECT_NAME}_gencfg ${PROJECT_NAME}_generate_messages)
+target_link_libraries(DynupNode ${catkin_LIBRARIES})
