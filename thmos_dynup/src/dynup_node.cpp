@@ -1,3 +1,4 @@
+#include "ros/package.h"
 #include "ros/ros.h"
 #include "bitbots_msgs/JointCommand.h"
 #include "bitbots_msgs/DynUpResult.h"
@@ -8,8 +9,8 @@
 #include <string>
 #include <iostream>
 
-#define DYNUP_FRONT_FILE_NAME "/home/jinyin/main_workspace/src/bitbots_thmos_meta/thmos_dynup/config/dynup_front.txt"
-#define DYNUP_BACK_FILE_NAME "/home/jinyin/main_workspace/src/bitbots_thmos_meta/thmos_dynup/config/dynup_back.txt"
+#define DYNUP_FRONT_FILE_NAME "/config/dynup_front.txt"
+#define DYNUP_BACK_FILE_NAME "/config/dynup_back.txt"
 
 typedef actionlib::SimpleActionServer<bitbots_msgs::DynUpAction> ActionServer;
 std::string Id2Name (int id) {
@@ -183,8 +184,11 @@ Arguments* readArgs (std::string filename) {
 }
 
 int main (int argc, char** argv) {
-    Arguments* dynup_front_args = readArgs(DYNUP_FRONT_FILE_NAME);
-    Arguments* dynup_back_args = readArgs(DYNUP_BACK_FILE_NAME);
+    std::string packagePath = ros::package::getPath("thmos_dynup");
+    std::string filePath_front = packagePath + DYNUP_FRONT_FILE_NAME;
+    std::string filePath_back= packagePath + DYNUP_BACK_FILE_NAME;
+    Arguments* dynup_front_args = readArgs(filePath_front);
+    Arguments* dynup_back_args = readArgs(filePath_back);
 
     if (!dynup_front_args || !dynup_back_args) {
         ROS_ERROR("Read args failed!");

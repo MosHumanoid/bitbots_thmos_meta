@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
         std_msgs
         message_generation
         message_runtime
+        roslib
 )
 
 generate_messages(
