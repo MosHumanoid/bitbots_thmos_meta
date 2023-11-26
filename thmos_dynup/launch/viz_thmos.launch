@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(find bitbots_bringup)/launch/load_robot_description_thmos.launch" />
+  
+  <node name="dynup_rviz" pkg="rviz" type="rviz" output="screen" required="true" args="-d $(find thmos_dynup)/config/dynup.rviz" />
+  
+  <node name="joint_goal_viz_dynup" pkg="bitbots_bringup"  type="motor_goals_viz_helper_thmos.py"  args="--dynup" />
+  
+  <node name="dynup" pkg="thmos_dynup" type="DynupNode" output="screen" />
+  
+</launch>

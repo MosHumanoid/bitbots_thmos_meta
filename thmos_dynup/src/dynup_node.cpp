@@ -1,5 +1,7 @@
 #include "ros/ros.h"
 #include "bitbots_msgs/JointCommand.h"
+#include "bitbots_msgs/DynUpResult.h"
+#include "bitbots_msgs/DynUpAction.h"
 #include <actionlib/server/simple_action_server.h>
 #include <fstream>
 #include <vector>
@@ -108,7 +110,14 @@ void publishMsg (ros::Publisher* pub, Arguments* args)
         bitbots_msgs::JointCommand msg;
         for (int i=0; i<20; i++) {
             msg.joint_names.push_back(Id2Name(i+1));
-            msg.positions.push_back(args -> args[id][i]);
+            //joint orintation error bug fix
+            if(i == 4 || i == 7){
+              msg.positions.push_back(-args -> args[id][i]);
+            }
+            else{
+              msg.positions.push_back(args -> args[id][i]);
+            }
+            msg.velocities.push_back(5.5);
         }
         pub -> publish(msg);
         id++;
@@ -122,7 +131,7 @@ typedef struct {
     Arguments* dynup_back_args;
 } Pubs;
 
-void callback(const bitbots_msgs::DynupGoalConstPtr &goal, ActionServer* as,Pubs* p)
+void callback(const bitbots_msgs::DynUpGoalConstPtr &goal, ActionServer* as,Pubs* p)
 {
     if (goal -> direction == "front") {
         mos_state = DYNUP_FRONT;
@@ -130,7 +139,7 @@ void callback(const bitbots_msgs::DynupGoalConstPtr &goal, ActionServer* as,Pubs
         publishMsg(&(p->dynup_pub), p->dynup_front_args);
         ROS_INFO("-------finished dynup front-------");
     }
-    else if (goal -> kick_speed == "back") {
+    else if (goal -> direction == "back") {
         mos_state = DYNUP_BACK;
         ROS_INFO("-------start dynup back-------");
         publishMsg(&(p->dynup_pub), p->dynup_back_args);

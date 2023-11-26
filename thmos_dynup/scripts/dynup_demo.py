@@ -9,11 +9,10 @@ from bitbots_msgs.msg import DynUpGoal, DynUpAction, DynUpFeedback
 showing_feedback = False
 
 if __name__ == "__main__":
-    directions = ['front', 'front_only', 'back', 'back_only', 'rise',
-                  'descend']
+    directions = ['front', 'back']
     direction_test = directions[0]
 
-    rospy.init_node('dynup_dummy_client', anonymous=True)
+    rospy.init_node('dynup_client', anonymous=True)
     print("Initializing node")
 
 
@@ -52,7 +51,7 @@ if __name__ == "__main__":
         return 
 
     print('[..] Connecting to action server \'dynup\'', end='')
-    client = actionlib.SimpleActionClient('dynup', DynUpAction)
+    client = actionlib.SimpleActionClient('thmos_dynup', DynUpAction)
     if not client.wait_for_server():
         exit(1)
     print('\r[OK] Connecting to action server \'dynup\'')

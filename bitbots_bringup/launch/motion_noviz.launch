@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find bitbots_bringup)/launch/load_robot_description_thmos.launch" />
+
+    <node name="dynamic_kick" pkg="bitbots_dynamic_kick" type="KickNode" output="screen">
+        <rosparam command="load" file="$(find bitbots_dynamic_kick)/config/kick_config.yaml" />
+    </node>
+    
+    <rosparam  command="load" file="$(find bitbots_quintic_walk)/config/walk_config.yaml"/>
+    <node name="walking" pkg="bitbots_quintic_walk" type="WalkNode" output="screen"/>
+    
+    <node name="dynup" pkg="thmos_dynup" type="DynupNode" output="screen" />
+</launch>

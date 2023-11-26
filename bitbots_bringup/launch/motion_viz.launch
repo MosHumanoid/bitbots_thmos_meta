@@ -14,4 +14,5 @@
     <rosparam  command="load" file="$(find bitbots_quintic_walk)/config/walk_config.yaml"/>
     <node name="walking" pkg="bitbots_quintic_walk" type="WalkNode" output="screen"/>
     
+    <node name="dynup" pkg="thmos_dynup" type="DynupNode" output="screen" />
 </launch>
