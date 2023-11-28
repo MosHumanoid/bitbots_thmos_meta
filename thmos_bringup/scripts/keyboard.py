@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# This script was based on the teleop_twist_keyboard package
-# original code can be found at https://github.com/ros-teleop/teleop_twist_keyboard
 import math
 import os
 
@@ -14,6 +12,7 @@ from bitbots_msgs.msg import JointCommand
 import sys, select, termios, tty
 import actionlib
 from bitbots_msgs.msg import KickGoal, KickAction, KickFeedback
+from bitbots_msgs.msg import DynUpGoal, DynUpAction, DynUpFeedback
 from geometry_msgs.msg import Vector3, Quaternion
 from std_msgs.msg import Bool
 from std_srvs.srv import Empty
@@ -96,7 +95,6 @@ walkready = JointCommand(
         -0.0625,  # RAnkleRoll
     ])
 msg = """
-BitBots Teleop
 --------------
 Walk around:            Move head:
     q    w    e         u    i    o
@@ -114,9 +112,8 @@ SHIFT increases with factor 10
 y: kick left    Y: walk kick left
 c: kick right   C: walk kick right
 
-f: play walkready animation
-r: reset robot in simulation
-R: reset ball in simulation
+f: dynup front
+r: dynup back
 
 CTRL-C to quit
 
@@ -199,12 +196,7 @@ if __name__ == "__main__":
 
     # Head Part
     rospy.Subscriber("joint_states", JointState, joint_state_cb, queue_size=1)
-    '''
-    if rospy.get_param("sim_active", default=False):
-        head_pub = rospy.Publisher("head_motor_goals", JointCommand, queue_size=1)
-    else:
-        head_pub = rospy.Publisher("DynamixelController/command", JointCommand, queue_size=1)
-    '''
+
     head_pub = rospy.Publisher("DynamixelController/command", JointCommand, queue_size=1)
     head_msg = JointCommand()
     head_msg.max_currents = [-1] * 2
@@ -244,14 +236,19 @@ if __name__ == "__main__":
     goal_right.kick_direction = Quaternion(*quaternion_from_euler(0, 0, 0))
     goal_right.kick_speed = 1
 
-    client = actionlib.SimpleActionClient('dynamic_kick', KickAction)
+    client_kick = actionlib.SimpleActionClient('dynamic_kick', KickAction)
 
+    goal_front = DynUpGoal()
+    goal_front.direction = 'front'
+    goal_back = DynUpGoal()
+    goal_back.direction = 'back'   
+    client_dynup = actionlib.SimpleActionClient('thmos_dynup', DynUpAction) 
+      
     try:
         while True:
             key = getKey()
             if key in moveBindings.keys():
                 x += moveBindings[key][0] * x_speed_step
-
                 x = round(x, 2)
                 y += moveBindings[key][1] * y_speed_step
                 y = round(y, 2)
@@ -268,10 +265,10 @@ if __name__ == "__main__":
                 head_pub.publish(head_msg)
             elif key == 'y':
                 # kick left
-                client.send_goal(goal_left)
+                client_kick.send_goal(goal_left)
             elif key == 'c':
                 # kick right
-                client.send_goal(goal_right)
+                client_kick.send_goal(goal_right)
             elif key == 'Y':
                 # kick left walk
                 walk_kick_pub.publish(False)
@@ -279,21 +276,11 @@ if __name__ == "__main__":
                 # kick right walk
                 walk_kick_pub.publish(True)
             elif key == 'f':
-                # play walkready animation
-                walkready.header.stamp = rospy.Time.now()
-                joint_pub.publish(walkready)
+                # dynup front
+                client_dynup.send_goal(goal_front)
             elif key == 'r':
-                # reset robot in sim
-                try:
-                    reset_robot()
-                except:
-                    pass
-            elif key == 'R':
-                # reset ball in sim
-                try:
-                    reset_ball()
-                except:
-                    pass
+                # dynup back
+                client_dynup.send_goal(goal_back)
             else:
                 x = 0
                 y = 0
