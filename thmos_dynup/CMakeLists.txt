@@ -8,15 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
         bitbots_msgs
         actionlib
         std_msgs
-        message_generation
-        message_runtime
         roslib
-)
-
-generate_messages(
-        DEPENDENCIES
-        bitbots_msgs
-        std_msgs
 )
 
 catkin_package(
@@ -32,5 +24,4 @@ set(SOURCES
         src/dynup_node.cpp)
         
 add_executable(DynupNode  ${SOURCES})
-add_dependencies(DynupNode ${PROJECT_NAME}_gencfg ${PROJECT_NAME}_generate_messages)
 target_link_libraries(DynupNode ${catkin_LIBRARIES})

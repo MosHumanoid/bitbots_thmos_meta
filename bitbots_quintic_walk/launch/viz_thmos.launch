@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-    <include file="$(find bitbots_bringup)/launch/load_robot_description_thmos.launch"/>
+    <include file="$(find thmos_bringup)/launch/load_robot_description_thmos.launch"/>
 
     <node name="walk_rviz" pkg="rviz" type="rviz" args="-d $(find bitbots_quintic_walk)/config/walk.rviz" />
 

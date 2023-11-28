@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>thmos_bringup</name>
+  <version>0.0.1</version>
+  <description>The thmos_bringup package is a collection of launch file.</description>
+  <maintainer email="19807733522@163.com">jinyin</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+     <bitbots_documentation>
+      <status>unknown</status>
+    </bitbots_documentation>
+  </export>
+</package>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-    <include file="$(find bitbots_bringup)/launch/load_robot_description_thmos.launch" />
+    <include file="$(find thmos_bringup)/launch/load_robot_description_thmos.launch" />
 
     <node name="dynamic_kick" pkg="bitbots_dynamic_kick" type="KickNode" output="screen">
         <rosparam command="load" file="$(find bitbots_dynamic_kick)/config/kick_config.yaml" />
