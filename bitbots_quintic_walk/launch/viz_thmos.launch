@@ -5,7 +5,7 @@
 
     <node name="walk_rviz" pkg="rviz" type="rviz" args="-d $(find bitbots_quintic_walk)/config/walk.rviz" />
 
-    <node name="joint_goal_viz_walk" pkg="bitbots_bringup" type="motor_goals_viz_helper_thmos.py" output="screen" args="--walking"/>
+    <node name="joint_goal_viz_walk" pkg="thmos_bringup" type="motor_goals_viz_helper_thmos.py" output="screen" args="--walking"/>
     
     <rosparam  command="load" file="$(find bitbots_quintic_walk)/config/walk_config.yaml"/>
     <node name="walking" pkg="bitbots_quintic_walk" type="WalkNode" output="screen"/>
