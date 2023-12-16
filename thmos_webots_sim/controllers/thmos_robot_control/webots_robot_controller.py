@@ -115,7 +115,7 @@ class RobotController:
             rospy.Subscriber(base_ns + "walking_motor_goals", JointCommand, self.command_cb, queue_size=1)
             rospy.Subscriber(base_ns + "head_motor_goals", JointCommand, self.command_head_cb)
             rospy.Subscriber(base_ns + "kick_motor_goals", JointCommand, self.command_kick_cb)
-            rospy.Subscriber(base_ns + "/dynup_motor_goals", JointCommand, self.command_dynup_cb)
+            rospy.Subscriber(base_ns + "dynup_motor_goals", JointCommand, self.command_dynup_cb)
             
             # publish camera info once, it will be latched
             self.cam_info = CameraInfo()
